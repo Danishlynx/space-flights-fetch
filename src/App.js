@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react';
+import SpaceFlight from './SpaceFlight';
+
+import axios from 'axios';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  const [flights, setFlights] = useState([])
+
+  useEffect(() => {
+    axios
+    .get('https://api.spacexdata.com/v2/launches')
+    .then((res) =>{
+      setFlights(res.data)
+    })
+    .catch((err) => {
+      console.log("error while fetching from the spaceX api: ", err)
+    })
+  },[])
+  //
+  return  (
+    <div>
+      <h1>SpaceX Flight</h1>
+      <SpaceFlight/>
     </div>
-  );
+  )
+
+   
+ 
 }
 
 export default App;
